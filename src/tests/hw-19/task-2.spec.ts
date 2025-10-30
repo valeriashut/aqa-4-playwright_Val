@@ -7,27 +7,58 @@
 
 import test, { expect } from "@playwright/test";
 
+type Country = "USA" | "Canada" | "UK";
+type Gender = "Male" | "Female";
+type Hobbies = "Movies" | "Travelling" | "Gaming" | "Sports" | "Dancing";
+type Skills = "Java" | "JavaScript" | "Python" | "C++" | "Ruby";
+type MonthNames =
+  | "January"
+  | "February"
+  | "March"
+  | "April"
+  | "May"
+  | "June"
+  | "July"
+  | "August"
+  | "September"
+  | "October"
+  | "November"
+  | "December";
+
+interface IUserData {
+  firstName: string;
+  lastName: string;
+  address: string;
+  email: string;
+  phone: string;
+  country: Country;
+  gender: Gender;
+  language: string;
+  skills: Skills[];
+  hobbies: Hobbies[];
+  birthDate: { day: number; month: MonthNames; year: number };
+  password: string;
+}
+
+const userInfo: IUserData = {
+  firstName: "Val",
+  lastName: "Test",
+  address: "Roma",
+  email: "valTest@test.com",
+  phone: "+1154578987351",
+  country: "UK",
+  gender: "Female",
+  language: "English",
+  skills: ["JavaScript"],
+  hobbies: ["Sports", "Dancing"],
+  birthDate: { day: 29, month: "March", year: 1991 },
+  password: "123",
+};
+
 test.describe("[Registration Form] [Registration]", () => {
+  const url = "https://anatoly-karpovich.github.io/demo-registration-form/";
+
   test("user registration", async ({ page }) => {
-    const userInfo = {
-      firstName: "Val",
-      lastName: "Test",
-      Address: "Roma",
-      Email: "valTest@test.com",
-      Phone: "+1154578987351",
-      Country: "UK",
-      Gender: "female",
-      Language: "English",
-      Skills: ["JavaScript"],
-      Hobbies: ["Sports", "Dancing"],
-      yearBday: "1991",
-      monthBday: "March",
-      dayBday: "29",
-      Password: "123",
-    };
-
-    const url = "https://anatoly-karpovich.github.io/demo-registration-form/";
-
     const firstName = page.locator("#firstName");
     const lastName = page.locator("#lastName");
     const address = page.locator("#address");
@@ -35,7 +66,7 @@ test.describe("[Registration Form] [Registration]", () => {
     const phone = page.locator("#phone");
     const country = page.locator("#country");
     const gender = page.locator(
-      `input[name="gender"][value="${userInfo.Gender}"]`
+      `input[name="gender"][value="${userInfo.gender}"]`
     );
     const genderOnDetailes = page.locator("#gender");
     const language = page.locator("#language");
@@ -57,34 +88,30 @@ test.describe("[Registration Form] [Registration]", () => {
 
     await firstName.fill(userInfo.firstName);
     await lastName.fill(userInfo.lastName);
-    await address.fill(userInfo.Address);
-    await emailAddress.fill(userInfo.Email);
-    await phone.fill(userInfo.Phone);
-    await country.selectOption(userInfo.Country);
-    await expect(country).toHaveValue(userInfo.Country);
+    await address.fill(userInfo.address);
+    await emailAddress.fill(userInfo.email);
+    await phone.fill(userInfo.phone);
+    await country.selectOption(userInfo.country);
+    await expect(country).toHaveValue(userInfo.country);
     await gender.check();
 
-    for (const hobby of userInfo.Hobbies) {
+    for (const hobby of userInfo.hobbies) {
       const hobbies = page.locator(`input[class="hobby"][value = "${hobby}"]`);
       await hobbies.check();
     }
 
-    await language.fill(userInfo.Language);
+    await language.fill(userInfo.language);
 
-    for (const skill of userInfo.Skills) {
+    for (const skill of userInfo.skills) {
       await skills.selectOption(skill);
       await expect(skills).toHaveValue(skill);
     }
 
-    await yearBday.selectOption(userInfo.yearBday);
-    await expect(yearBday).toHaveValue(userInfo.yearBday);
-    await monthBday.selectOption(userInfo.monthBday);
-    await expect(monthBday).toHaveValue(userInfo.monthBday);
-    await dayBday.selectOption(userInfo.dayBday);
-    await expect(dayBday).toHaveValue(userInfo.dayBday);
-
-    await password.fill(userInfo.Password);
-    await confirmPassword.fill(userInfo.Password);
+    await yearBday.selectOption({ label: userInfo.birthDate.year.toString() });
+    await monthBday.selectOption({ label: userInfo.birthDate.month });
+    await dayBday.selectOption({ label: userInfo.birthDate.day.toString() });
+    await password.fill(userInfo.password);
+    await confirmPassword.fill(userInfo.password);
 
     await submitButton.click();
 
@@ -92,16 +119,16 @@ test.describe("[Registration Form] [Registration]", () => {
     await expect(fullName).toHaveText(
       `${userInfo.firstName} ${userInfo.lastName}`
     );
-    await expect(address).toHaveText(userInfo.Address);
-    await expect(emailAddress).toHaveText(userInfo.Email);
-    await expect(phone).toHaveText(userInfo.Phone);
-    await expect(country).toHaveText(userInfo.Country);
-    await expect(genderOnDetailes).toHaveText(userInfo.Gender);
-    await expect(language).toHaveText(userInfo.Language);
-    await expect(skills).toHaveText(userInfo.Skills);
-    await expect(hobbiesDetails).toHaveText(userInfo.Hobbies.join(", "));
+    await expect(address).toHaveText(userInfo.address);
+    await expect(emailAddress).toHaveText(userInfo.email);
+    await expect(phone).toHaveText(userInfo.phone);
+    await expect(country).toHaveText(userInfo.country);
+    await expect(genderOnDetailes).toHaveText(userInfo.gender);
+    await expect(language).toHaveText(userInfo.language);
+    await expect(skills).toHaveText(userInfo.skills);
+    await expect(hobbiesDetails).toHaveText(userInfo.hobbies.join(", "));
     await expect(bDayDate).toHaveText(
-      `${userInfo.dayBday} ${userInfo.monthBday} ${userInfo.yearBday}`
+      `${userInfo.birthDate.day} ${userInfo.birthDate.month} ${userInfo.birthDate.year}`
     );
   });
 });
