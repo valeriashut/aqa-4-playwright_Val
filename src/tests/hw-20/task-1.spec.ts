@@ -12,7 +12,6 @@
 //   - Дождаться появления чекбокса
 //   - Завалидировать текст It's back!
 
-
 import { expect, test } from "@playwright/test";
 
 enum NOTIFICATIONS {
