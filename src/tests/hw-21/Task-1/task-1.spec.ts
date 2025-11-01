@@ -5,13 +5,12 @@
 // Страница регистрации:
 //   Username: обязательное, от 3 до 40 символов включительно, запрещены префиксные/постфиксные пробелы, как и имя состоящее из одних пробелов
 //   Password: обязательное, от 8 до 20 символов включительно, необходима хотя бы одна буква в верхнем и нижнем регистрах, пароль из одних пробелов запрещен
-
 // Страница логина:
 //   Username: обязательное
 //   Password: обязательное
 
 import test, { expect } from "@playwright/test";
-import userinvalidTestData from "../../hw-21/Task-1/register.data";
+import userinvalidTestData from "./register.data";
 
 test.describe("[Demo Login Form] Registration", () => {
   const url = "https://anatoly-karpovich.github.io/demo-login-form/";

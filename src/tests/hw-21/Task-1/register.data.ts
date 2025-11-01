@@ -1,3 +1,4 @@
+
 interface ICredentials {
   username: string;
   password: string;
@@ -16,7 +17,7 @@ enum NOTIFICATIONS  {
     REGISTER_FAIL_PASSWORD_MIN = "Password should contain at least 8 characters",
     REGISTER_FAIL_PASSWORD_EMPTY = "Password is required",
 }
-
+ 
 const invalidTestData: IUserData[] = [
   {
     credentials: { username: " ", password: " " },

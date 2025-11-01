@@ -6,6 +6,7 @@ interface IUserRow {
   'Web Site': string;
 }
 
+
 const expectedTable: IUserRow[] = [
   {
     'Last Name': 'Smith',
