@@ -27,6 +27,11 @@
   "homepage": "https://github.com/valeriashut/aqa-4-playwright_Val#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^24.8.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "lodash": "^4.17.21"
   }
 }
