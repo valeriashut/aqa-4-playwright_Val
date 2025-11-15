@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
-import { HomePage } from "ui/pages/hame.page";
+import { HomePage } from "ui/pages/home.page";
 import { LogInPage } from "ui/pages/logIn.page";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
@@ -68,7 +68,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     await productsListPage.waitForOpened();
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(firstRowInTable).toContainText(productData.name);
-    const productFromTable = await productsListPage.getProductInf(productData.name);
+    const productFromTable = await productsListPage.getProductData(productData.name);
     const actualProductData = _.omit(productFromTable, ['createdOn']);
     const expectedProductData = _.omit(productData, ['amount', 'notes']);
     expect(actualProductData).toEqual(expectedProductData);
