@@ -1,4 +1,5 @@
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
+import { ID, IResponseFields } from "./core.types";
 
 export interface IProduct {
   name: string;
@@ -20,6 +21,12 @@ export interface IProductFromTable extends Omit<IProduct, 'amount' | 'notes'> {
 }
 
 export interface IProductDetails extends Required<IProduct>, ICreatedOn {}
+
+export interface IProductFromResponse extends Required<IProduct>, ICreatedOn, ID {}
+
+export interface IProductResponse extends IResponseFields {
+  Product: IProductFromResponse;
+}
 
 // export interface IProductDetails extends Required<IProduct> {
 //   createdOn : string;
