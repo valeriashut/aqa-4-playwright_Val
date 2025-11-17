@@ -28,6 +28,10 @@ export interface IProductResponse extends IResponseFields {
   Product: IProductFromResponse;
 }
 
+export interface IProductsResponse extends IResponseFields {
+  Products: IProductFromResponse[];
+}
+
 // export interface IProductDetails extends Required<IProduct> {
 //   createdOn : string;
 // }
