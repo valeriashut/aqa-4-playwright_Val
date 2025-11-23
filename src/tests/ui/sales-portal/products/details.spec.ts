@@ -4,6 +4,9 @@ import { generateProductData } from "data/salesPortal/products/generateProductDa
 import _ from "lodash";
 
 test.describe("[Sales Portal] [Products]", () => {
+  let token = "";
+  let id = "";
+
   //test with fixtures version 1
   test("Product Details", async ({ loginAsAdmin, homePage, productsListPage, addNewProductPage }) => {
     //login page
@@ -64,24 +67,27 @@ test.describe("[Sales Portal] [Products]", () => {
   //   expect(_.omit(actual, ["createdOn"])).toEqual(productData);
   // });
 
+  test("Product Details with services", async ({
+    loginUIService,
+    homeUIService,
+    productsListUIService,
+    productsApiService,
+    productsListPage,
+  }) => {
+    token = await loginUIService.loginAsAdmin();
 
-//   Создайте e2e тест со следующими шагами:
-// 1. Зайти на сайт Sales Portal
-// 2. Залогиниться с вашими кредами
-// 3. Перейти на страницу Products List
-// 4. Перейти на станицу Add New Product
-// 5. Создать продукта
-// 6. Проверить наличие продукта в таблице
-// 7. Кликнуть на кнопку "Delete" в таблице для созданного продукта
-// 8. В модалке удаления кликнуть кнопку Yes, Delete
-// 9. Дождаться исчезновения модалки и загрузки страницы
-// 10. Проверить, что продукт отсутствует в таблице
+    const createdProduct = await productsApiService.create(token);
+    id = createdProduct._id;
+    await homeUIService.openModule("Products");
+    await productsListUIService.openDetailsModal(createdProduct.name);
+    const actual = await productsListPage.detailsModal.getData();
+    
+    productsListUIService.assertDetailsData(actual, createdProduct);
+  });
 
-// Вам понадобится:
-
-// - PageObject модалки удаления продукта
-// - Подключить модалку в PageObject страницы Products
-// - Использовать фикстуры
-
+  test.afterEach(async ({ productsApiService }) => {
+    if (id) await productsApiService.delete(token, id);
+    id = "";
+  });
 
 });

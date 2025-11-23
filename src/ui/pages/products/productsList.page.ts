@@ -2,11 +2,14 @@ import { IProductFromTable, IProductInTable, ProductsTableHeader } from "data/ty
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
 import { ProductDetailModal } from "./details.modal";
-import { ProductDeleteModal } from "./delete.modal";
+import { ConfirmationModal } from "../confirmation.modal";
+import { EditProductModal } from "./editProduct.page";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly detailsModal = new ProductDetailModal(this.page);
-  readonly deleteModal = new ProductDeleteModal(this.page);
+  readonly editModal = new EditProductModal(this.page);
+  readonly deleteModal = new ConfirmationModal(this.page);
+//  readonly deleteModal = new ProductDeleteModal(this.page);
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly tableRow = this.page.locator("tbody tr");
   readonly addNewProductButton = this.page.locator('[name="add-button"]');
@@ -37,6 +40,10 @@ export class ProductsListPage extends SalesPortalPage {
   readonly editButton = (productName: string) => this.tableRowByName(productName).getByTitle("Edit");
   readonly detailsButton = (productName: string) => this.tableRowByName(productName).getByTitle("Details");
   readonly deleteButton = (productName: string) => this.tableRowByName(productName).getByTitle("Delete");
+
+  readonly searchInput = this.page.locator("#search");
+  readonly searchButton = this.page.locator("#search-products");
+
   readonly uniqueElement = this.addNewProductButton;
 
   async clickAddNewProduct() {
@@ -112,6 +119,14 @@ async clickAction(productName: string, button: "edit" | "delete" | "details") {
 
   async clickTableHeader(name: ProductsTableHeader) {
     await this.tableHeaderNamed(name).click();
+  }
+
+  async fillSearchInput(text: string) {
+    await this.searchInput.fill(text);
+  }
+
+  async clickSearch() {
+    await this.searchButton.click();
   }
 
 }

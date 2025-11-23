@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test";
+import { test, expect } from "fixtures/business.fixture";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
@@ -9,6 +9,28 @@ import { ProductsListPage } from "ui/pages/products/productsList.page";
 import _ from "lodash";
 
 test.describe("[Sales Portal] [Products]", async () => {
+
+  let id = "";
+  let token = "";
+
+  test.afterEach(async ({ productsApiService }) => {
+    if (id) await productsApiService.delete(token, id);
+    id = "";
+  });
+
+  test("Add new product with service", async ({ loginUIService, homeUIService, productsListUIService, addNewProductUIService, productsListPage }) => {
+    token = await loginUIService.loginAsAdmin();
+    await homeUIService.openModule("Products");
+
+    await productsListUIService.openAddNewProductPage();
+
+    const createProduct = await addNewProductUIService.create();
+    id = createProduct._id;
+
+    await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
+    await expect(productsListPage.tableRowByName(createProduct.name)).toBeVisible();
+  });
+
   test("Add new product", async ({ page }) => {
     const homePage = new HomePage(page);
     const loginPage = new LogInPage(page);
