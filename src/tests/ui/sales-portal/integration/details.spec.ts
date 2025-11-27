@@ -1,11 +1,17 @@
 import { test, expect } from "fixtures/business.fixture";
 import { generateProductResponseData } from "data/salesPortal/products/generateProductData";
 import _ from "lodash";
-import { SALES_PORTAL_URL } from "config/env";
 import { convertToFullDateAndTime } from "utils/date.utils";
+import { TAGS } from "data/tags";
 
 test.describe("[Integration] [Sales Portal] [Products]", () => {
-  test("Product Details", async ({ loginAsAdmin, productsListPage, page, mock }) => {
+  let token = "";
+
+  test("Product Details", 
+    {
+      tag: [TAGS.UI, TAGS.SMOKE],
+    },
+    async ({ productsListPage, mock, productsListUIService }) => {
     const expectedProductResponse = generateProductResponseData();
     await mock.productsPage({
       Products: [expectedProductResponse],
@@ -28,9 +34,12 @@ test.describe("[Integration] [Sales Portal] [Products]", () => {
       ErrorMessage: null,
     });
 
-    await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + "products");
-    await productsListPage.waitForOpened();
+    token = await productsListPage.getAuthToken();
+    await productsListUIService.open();
+
+    // await loginAsAdmin();
+    // await page.goto(SALES_PORTAL_URL + "products");
+    // await productsListPage.waitForOpened();
     await productsListPage.clickAction(expectedProductResponse.name, "details");
     const { detailsModal } = productsListPage;
     await detailsModal.waitForOpened();

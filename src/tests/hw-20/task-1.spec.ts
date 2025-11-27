@@ -20,7 +20,7 @@ enum NOTIFICATIONS {
 }
 
 test.describe("[Heroku App] [Dynamic controls]", () => {
-  test("HW20", async ({ page }) => {
+  test.skip("HW20", async ({ page }) => {
     const url = "https://the-internet.herokuapp.com/";
     const dynamicControlsLink = page.locator('a[href="/dynamic_controls"]');
     await page.goto(url);

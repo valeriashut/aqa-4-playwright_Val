@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { ProductsListPage } from "../products/productsList.page";
 import { HomeModuleButton, HomePage } from "../home.page";
+import { logStep } from "utils/report/logStep.utils";
 
 export class HomeUIService {
     homePage: HomePage;
@@ -21,4 +22,10 @@ export class HomeUIService {
             await this.productsListPage.waitForOpened();
         }
     }
+
+    @logStep("Open Home List Page")
+      async open() {
+        await this.homePage.open("home");
+        await this.homePage.waitForOpened();
+      }
 }

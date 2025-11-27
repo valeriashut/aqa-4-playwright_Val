@@ -6,6 +6,7 @@ import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { createProductSchema } from "data/schemas/products/create.shema";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import { expect, test } from "fixtures/api.fixture";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
@@ -45,7 +46,11 @@ for (const { title, productData, successMessage, statusCode } of invalidTestData
   });
 }
 
-test("Create Product with same name", async ({ productsApi }) => {
+test("Create Product with same name", 
+  {
+    tag: [TAGS.API, TAGS.PRODUCTS, TAGS.REGRESSION],
+  },
+  async ({ productsApi }) => {
     const productData = generateProductData();
     const createdProduct = await productsApi.create(productData, token);
     validateResponse(createdProduct, {

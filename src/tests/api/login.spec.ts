@@ -8,6 +8,7 @@ import { apiConfig } from "config/apiConfig";
 import { credentials } from "config/env";
 import { loginSchema } from "data/schemas/login.schema";
 import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import _ from "lodash";
 import { validateResponseLogIN } from "utils/validation/validateResponse.utils";
 
@@ -15,7 +16,11 @@ const { baseURL, endpoints } = apiConfig;
 
 test.describe("[API] [Sales Portal] [LogIn]", () => {
   
-  test("log in", async ({ request }) => {
+  test("log in", 
+    {
+      tag: [TAGS.API],
+    },
+    async ({ request }) => {
 
     const loginResponse = await request.post(baseURL + endpoints.login, {
       data: credentials,

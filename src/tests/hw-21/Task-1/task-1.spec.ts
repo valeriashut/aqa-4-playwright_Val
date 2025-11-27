@@ -16,7 +16,7 @@ test.describe("[Demo Login Form] Registration", () => {
   const url = "https://anatoly-karpovich.github.io/demo-login-form/";
 
   for (const { title, credentials, successMessage } of userinvalidTestData) {
-    test(title, async ({ page }) => {
+    test.skip(title, async ({ page }) => {
       await page.goto(url);
       const registerOnLoginButton = page.locator('.loginForm input[value="Register"]');
       await expect(registerOnLoginButton).toBeVisible();

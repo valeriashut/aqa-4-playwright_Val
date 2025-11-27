@@ -6,8 +6,11 @@ import { ProductsSortField, ProductsTableHeader } from "data/types/product.types
 import { SortOrder } from "data/types/core.types";
 import _ from "lodash";
 import { convertToDateAndTime } from "utils/date.utils";
+import { TAGS } from "data/tags";
 
 test.describe("[Integration] [Sales Portal] [Products] [Table Sorting]", () => {
+  let token = "";
+  let id = "";
   // test("Field: createdOn, direction: asc", async ({ loginAsAdmin, productsListPage, page, mock }) => {
   //   const product1 = generateProductResponseData();
   //   const product2 = generateProductResponseData();
@@ -110,7 +113,11 @@ test.describe("[Integration] [Sales Portal] [Products] [Table Sorting]", () => {
   const directions = ["asc", "desc"] as SortOrder[];
   for (const header of ["Name", "Price", "Manufacturer", "Created On"] as ProductsTableHeader[]) {
     for (const direction of directions) {
-      test(`Field: ${header}, direction: ${direction}`, async ({ loginAsAdmin, productsListPage, page, mock }) => {
+      test(`Field: ${header}, direction: ${direction}`, 
+        {
+              tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.PRODUCTS, TAGS.UI],
+            },
+        async ({ loginAsAdmin, productsListPage, productsApiService, page, productsListUIService, mock }) => {
         const headersMapper: Record<string, ProductsSortField> = {
           Name: "name",
           Price: "price",
@@ -135,9 +142,14 @@ test.describe("[Integration] [Sales Portal] [Products] [Table Sorting]", () => {
           },
         });
 
-        await loginAsAdmin();
-        await page.goto(SALES_PORTAL_URL + "products");
-        await productsListPage.waitForOpened();
+        token = await productsListPage.getAuthToken();
+        await productsListUIService.open();
+        // const product = await productsApiService.create(token);
+        // id = product._id;
+
+        // await loginAsAdmin();
+        // await page.goto(SALES_PORTAL_URL + "products");
+        // await productsListPage.waitForOpened();
 
         await mock.productsPage({
           Products: products,

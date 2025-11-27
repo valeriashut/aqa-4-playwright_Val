@@ -8,16 +8,21 @@
 //   - Orders This Year: Metrics.orders.totalOrders
 //   - New Customers: Metrics.customers.totalNewCustomers
 //   - Canceled Orders: Metrics.orders.totalCanceledOrders
-
-import { SALES_PORTAL_URL } from "config/env";
 import { generateMetricData } from "data/salesPortal/generateMetrictData";
+import { TAGS } from "data/tags";
 import { test, expect } from "fixtures/business.fixture";
 
 
 
 
 test.describe("[Integration] [Sales Portal] [Home Page]", () => {
-  test("Metrics totalOrdersValue", async ({ loginAsAdmin, homePage, mock, page }) => {
+  let token = "";
+
+  test("Metrics totalOrdersValue", 
+    {
+      tag: [TAGS.UI],
+    },
+    async ({ homePage, mock, productsListPage, homeUIService }) => {
 
     const mockBody = generateMetricData();
     const totalOrdersValue = mockBody.orders.totalOrders;  
@@ -28,13 +33,17 @@ test.describe("[Integration] [Sales Portal] [Home Page]", () => {
       Metrics: mockBody,
     });
 
-    await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + "home");
-    await homePage.waitForOpened();
+    token = await productsListPage.getAuthToken();
+    await homeUIService.open();
+
     expect(homePage.metricsOrdersThisYear).toContainText(String(totalOrdersValue));
   });
 
-  test("Metrics totalNewCustomer", async ({ loginAsAdmin, homePage, mock, page }) => {
+  test("Metrics totalNewCustomer", 
+    {
+      tag: [TAGS.UI],
+    },
+    async ({ homePage, mock, productsListPage, homeUIService }) => {
 
     const mockBody = generateMetricData();
     const totalNewCustomer = mockBody.customers.totalNewCustomers;  
@@ -45,13 +54,17 @@ test.describe("[Integration] [Sales Portal] [Home Page]", () => {
       Metrics: mockBody,
     });
 
-    await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + "home");
-    await homePage.waitForOpened();
+    token = await productsListPage.getAuthToken();
+    await homeUIService.open();
+
     expect(homePage.metricsNewCustomers).toContainText(String(totalNewCustomer));
   });
 
-  test("Metrics totalCanceledOrder", async ({ loginAsAdmin, homePage, mock, page }) => {
+  test("Metrics totalCanceledOrder", 
+    {
+      tag: [TAGS.UI],
+    },
+    async ({ homePage, mock, productsListPage, homeUIService }) => {
 
     const mockBody = generateMetricData();
     const totalCanceledOrder = mockBody.orders.totalCanceledOrders;  
@@ -62,9 +75,9 @@ test.describe("[Integration] [Sales Portal] [Home Page]", () => {
       Metrics: mockBody,
     });
 
-    await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + "home");
-    await homePage.waitForOpened();
+    token = await productsListPage.getAuthToken();
+    await homeUIService.open();
+
     expect(homePage.metricsCanceledOrders).toContainText(String(totalCanceledOrder));
   });
 });

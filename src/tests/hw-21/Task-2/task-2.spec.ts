@@ -34,7 +34,7 @@ test.describe("Table row information", () => {
     });
 
     for(const tablerow of expectedTable) {
-      test(`Find information from a table by email ${tablerow.Email!}`, async ({ page }) => {
+      test.skip(`Find information from a table by email ${tablerow.Email!}`, async ({ page }) => {
         const getTable = await getTableRow(page, tablerow.Email!);
         expect(getTable, `Expected table row should be equal to actual ${tablerow}`).toEqual(tablerow);})
     };

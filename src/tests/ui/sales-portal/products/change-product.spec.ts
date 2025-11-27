@@ -2,6 +2,7 @@ import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { expect } from "fixtures/business.fixture";
 import { test } from "fixtures";
+import { TAGS } from "data/tags";
 // Реализовать е2е тест со следующими шагами:
 //   - залогиниться
 //   - Создать продукт через API
@@ -15,7 +16,11 @@ import { test } from "fixtures";
 //   За собой удаляем продукт через апи, разумеется:)
 
 
-test.describe("[Sales Portal] [Products]", async () => {
+test.describe("[Sales Portal] [Products]", 
+    {
+        tag: [TAGS.SMOKE, TAGS.UI, TAGS.VISUAL_REGRESSION ]
+    },
+    async () => {
     let token = "";
     let id = "";
 
@@ -24,13 +29,13 @@ test.describe("[Sales Portal] [Products]", async () => {
         id = "";
       });
 
-    test("change product", async ({ loginUIService, productsApiService, homeUIService, productsListUIService, editProductPage, productsListPage }) => {
-        token = await loginUIService.loginAsAdmin();
-        const editData = generateProductData();
-
+    test("change product", async ({ productsApiService, productsListUIService, editProductPage, productsListPage }) => {
+        token = await productsListPage.getAuthToken();
         const createdProduct = await productsApiService.create(token);
         id = createdProduct._id;
-        await homeUIService.openModule("Products");
+        await productsListUIService.open();
+        
+        const editData = generateProductData();
         
         await productsListUIService.editProductModal(createdProduct.name);
         await editProductPage.fillFormWithEdidData(editData);
