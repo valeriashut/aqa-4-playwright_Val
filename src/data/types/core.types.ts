@@ -14,10 +14,7 @@ export interface IRequestOptions {
   data?: object;
   headers?: Record<string, string>;
 }
-
 export interface IResponse<T extends object | null> {
-  json(): unknown;
-  Products: any;
   status: number;
   headers: Record<string, string>;
   body: T;
