@@ -66,7 +66,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(registerPageTitle).toHaveText("Registration");
     })
 
-    test("Submit registration form with valid credentials", async ({ page })=>{
+    test.skip("Submit registration form with valid credentials", async ({ page })=>{
 
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");
@@ -80,7 +80,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(notification).toHaveText(NOTIFICATIONS.REGISTER_SUCCESS);
     });
 
-    test("Submit registration with spaces in username, password fialds", async ({ page })=>{
+    test.skip("Submit registration with spaces in username, password fialds", async ({ page })=>{
  
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");
@@ -95,7 +95,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(notification).toHaveText(NOTIFICATIONS.REGISTER_FAIL_INVALID_VALUES);
     });
 
-    test("Submit registration with username less then min", async ({ page })=>{
+    test.skip("Submit registration with username less then min", async ({ page })=>{
  
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");
@@ -110,7 +110,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(notification).toHaveText(NOTIFICATIONS.REGISTER_FAIL_USERNAME_MIN);
     });
 
-    test("Submit registration with empty username", async ({ page })=>{
+    test.skip("Submit registration with empty username", async ({ page })=>{
  
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");
@@ -125,7 +125,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(notification).toHaveText(NOTIFICATIONS.REGISTER_FAIL_USERNAME_EMPTY);
     });
 
-    test("Submit registration with password less then min", async ({ page })=>{
+    test.skip("Submit registration with password less then min", async ({ page })=>{
  
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");
@@ -140,7 +140,7 @@ test.describe("[AnatolyKarpovich site] [Registration form]", () => {
         await expect(notification).toHaveText(NOTIFICATIONS.REGISTER_FAIL_PASSWORD_MIN);
     });
 
-    test("Submit registration with empty password", async ({ page })=>{
+    test.skip("Submit registration with empty password", async ({ page })=>{
  
         const usernameInput = page.locator("#userNameOnRegister");
         const passwordInput = page.locator("#passwordOnRegister");

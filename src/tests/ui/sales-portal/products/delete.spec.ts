@@ -1,14 +1,13 @@
 import { test, expect } from "fixtures/api.fixture";
 import { STATUS_CODES } from "data/statusCodes";
-// import { credentials } from "config/env";
-// import { generateProductData } from "data/salesPortal/products/generateProductData";
-// import { NOTIFICATIONS } from "data/salesPortal/notifications";
-// import { NOTIFICATIONS } from "data/salesPortal/notifications";
-// import { test, expect } from "fixtures/pages.fixture"
-// import _ from "lodash";
+import { TAGS } from "data/tags";
 
 test.describe("[API] [Sales Portal] [Products]", () => {
-  test("Delete Product", async ({ loginApiService, productsApiService, productsApi }) => {
+  test("Delete Product", 
+    {
+      tag: [TAGS.API]
+    },
+    async ({ loginApiService, productsApiService, productsApi }) => {
     //arrange
     const token = await loginApiService.loginAsAdmin();
     const createdProduct = await productsApiService.create(token);

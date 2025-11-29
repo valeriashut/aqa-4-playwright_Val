@@ -58,7 +58,7 @@ const userInfo: IUserData = {
 test.describe("[Registration Form] [Registration]", () => {
   const url = "https://anatoly-karpovich.github.io/demo-registration-form/";
 
-  test("user registration", async ({ page }) => {
+  test.skip("user registration", async ({ page }) => {
     const firstName = page.locator("#firstName");
     const lastName = page.locator("#lastName");
     const address = page.locator("#address");

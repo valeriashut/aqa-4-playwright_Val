@@ -15,6 +15,7 @@ import { createProductSchema } from "data/schemas/products/create.shema";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 import { validTestDataForProduct } from "api/api/creatProductsDDT.api";
+import { TAGS } from "data/tags";
 
 
 test.describe("[API] [Sales Portal] [Products]", () => {
@@ -26,7 +27,11 @@ test.describe("[API] [Sales Portal] [Products]", () => {
   });
 
   for (const { title, productData, successMessage, statusCode } of validTestDataForProduct) {
-  test(`${title}`, async ({ loginApiService, productsApi }) => {
+  test(`${title}`, 
+    {
+      tag: [TAGS.API, TAGS.PRODUCTS],
+    },
+    async ({ loginApiService, productsApi }) => {
     token = await loginApiService.loginAsAdmin();
     const createdProduct = await productsApi.create(productData, token);
     validateResponse(createdProduct, {
